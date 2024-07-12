@@ -1,0 +1,78 @@
+{
+  "Snippet for creating Next Component": {
+    "prefix": "nextcomponent",
+    "body": [
+      "",
+      "export default function ${1:ComponentName}() {",
+      "  return (",
+      "    <div>Hello World!</div>",
+      "  );",
+      "}",
+      "",
+    ],
+    "description": "Snippet for creating Next Component",
+  },
+  "Snippet for creating Next Get Request": {
+    "prefix": "nextget",
+    "body": [
+      "export const GET = async (request: NextRequest): Promise<Response> => {",
+      "  // Implement logic here",
+      "  ${0}",
+      "  return new Response('Not Implemented!', { status: 501 });",
+      "};",
+    ],
+    "description": "Snippet for creating Next GET Request",
+  },
+  "Snippet for creating Next POST Request": {
+    "prefix": "nextpost",
+    "body": [
+      "export const POST = async (request: NextRequest): Promise<Response> => {",
+      "  // Implement logic here",
+      "  ${0}",
+      "  return new Response('Not Implemented!', { status: 501 });",
+      "};",
+    ],
+    "description": "Snippet for creating Next POST Request",
+  },
+  "Snippet for creating Next DELETE Request": {
+    "prefix": "nextdelete",
+    "body": [
+      "export const DELETE = async (request: NextRequest): Promise<Response> => {",
+      "  // Implement logic here",
+      "  ${0}",
+      "  return new Response('Not Implemented!', { status: 501 });",
+      "};",
+    ],
+    "description": "Snippet for creating Next DELETE Request",
+  },
+  "Snippet for creating Next PUT Request": {
+    "prefix": "nextput",
+    "body": [
+      "export const PUT = async (request: NextRequest): Promise<Response> => {",
+      "  // Implement logic here",
+      "  ${0}",
+      "  return new Response('Not Implemented!', { status: 501 });",
+      "};",
+    ],
+    "description": "Snippet for creating Next PUT Request",
+  },
+  "Code snippet for scroll into view on page load": {
+  "prefix": "scrollintoview",
+  "body": [
+    "  const scrollToSection = useCallback((sectionId: string) => {",
+    "    const section = document.getElementById(sectionId);",
+    "    if (section) {",
+    "      section.scrollIntoView({ behavior: 'smooth' });",
+    "    }",
+    "  }, []);",
+    "",
+    "  useEffect(() => {",
+    "    const sectionId = window.location.hash.replace(/^#/, '');",
+    "    if (sectionId) {",
+    "      scrollToSection(sectionId);",
+    "    }",
+    "  }, [scrollToSection]);"
+  ],
+  "description": "Code snippet for scroll into view on page load"
+}
+}

@@ -16,17 +16,9 @@ import Button from '../button/button';
 import InputComponent from '../input/input';
 import Link from 'next/link';
 import { images } from '@/app/assets/images';
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from 'firebase/auth';
-import { auth } from '@/utils/firebase';
 import { isEmailValid, isEmpty } from '@/helper/common';
 import { useDispatch, useSelector } from 'react-redux';
-import { addUserDetails, getUserDataByEmail } from '@/services/userServices';
 import { usePathname, useRouter } from 'next/navigation';
-import UserPreferenceSingleton from '@/helper/userPreferenceSingleton';
-import { appInit } from '@/helper/appInitHelper';
 import { setErrorMessage } from '@/actions/messageActions';
 import { RootReducerInterface } from '@/app/Interface/RootReducerInterface';
 import { POSSIBLE_MEMBERSHIP_PAGES } from '@/global/constants';
@@ -54,45 +46,6 @@ export default function LoginCard({ login, isPadding, setCurrentActivePage }: Pr
     }
   }, [pathName, router, userDetails?.id]);
 
-  const handleLogin = useCallback(async () => {
-    setLoading(true);
-    try {
-      const result = await signInWithEmailAndPassword(auth, email, password);
-      const { user } = result || {};
-      if (user?.uid) {
-        const userData = await dispatch(getUserDataByEmail(email));
-        UserPreferenceSingleton.getInstance().setCurrentUser(userData);
-        await dispatch(appInit());
-        router.push('/');
-      }
-    } catch (error) {
-      dispatch(setErrorMessage(`Login error: : ${error}`));
-    } finally {
-      setLoading(false);
-    }
-  }, [dispatch, email, password, router]);
-
-  const handleRegister = useCallback(async () => {
-    setLoading(true);
-    try {
-      const result = await createUserWithEmailAndPassword(auth, email, password);
-      const { user } = result || {};
-      if (!isEmpty(user?.email) && user?.uid) {
-        const responseAdd = await dispatch(addUserDetails({ uid: user?.uid, email: user?.email || '' }));
-        if (responseAdd) {
-          const userData = await dispatch(getUserDataByEmail(email));
-          UserPreferenceSingleton.getInstance().setCurrentUser(userData);
-          await dispatch(appInit());
-          router.push('/setting');
-        }
-      }
-    } catch (error) {
-      dispatch(setErrorMessage(`Something went wrong : ${error}`));
-    } finally {
-      setLoading(false);
-    }
-  }, [dispatch, email, password, router]);
-
   const handleSubmit = useCallback(
     async (e: React.SyntheticEvent) => {
       e.preventDefault();
@@ -105,19 +58,15 @@ export default function LoginCard({ login, isPadding, setCurrentActivePage }: Pr
       }
       setLoading(true);
       try {
-        const userData = await dispatch(getUserDataByEmail(email));
-        if (!isEmpty(userData)) {
-          await handleLogin();
-        } else {
-          await handleRegister();
-        }
+        const payload = { email, password };
+        console.log('payload login', payload)
       } catch (err: any) {
         dispatch(setErrorMessage(`Failed to register : ${err}`));
       } finally {
         setLoading(false);
       }
     },
-    [dispatch, email, handleLogin, handleRegister, password],
+    [dispatch, email, password],
   );
 
   // const handleGoogleLogin = useCallback(async () => {

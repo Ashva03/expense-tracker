@@ -4,10 +4,8 @@ import { Container } from '@/app/styles/commonStyle';
 import InputComponent from '../input/input';
 import Button from '../button/button';
 import { useDispatch } from 'react-redux';
-import { sendPasswordResetEmail } from 'firebase/auth';
-import { auth } from '@/utils/firebase';
-import { setErrorMessage, setSuccessMessage } from '@/actions/messageActions';
-import { isEmailValid, isEmpty, validFirebaseErrorMessage } from '@/helper/common';
+import { setErrorMessage } from '@/actions/messageActions';
+import { isEmailValid, isEmpty } from '@/helper/common';
 import { POSSIBLE_MEMBERSHIP_PAGES } from '@/global/constants';
 
 interface Props {
@@ -32,22 +30,24 @@ export const ForgotPassword = (props: Props) => {
       }
       try {
         setLoading(true);
-        await sendPasswordResetEmail(auth, email)
-          .then((data) => {
-            dispatch(setSuccessMessage('Password reset lint sent to your email address!'));
-            setCurrentActivePage(POSSIBLE_MEMBERSHIP_PAGES.LOGIN);
-          })
-          .catch((error) => {
-            const message = validFirebaseErrorMessage(error);
-            if (message) dispatch(setErrorMessage(message));
-          });
+        const payload = { email }
+        console.log('payload forgot', payload)
+        // await sendPasswordResetEmail(auth, email)
+        //   .then((data) => {
+        //     dispatch(setSuccessMessage('Password reset lint sent to your email address!'));
+        //     setCurrentActivePage(POSSIBLE_MEMBERSHIP_PAGES.LOGIN);
+        //   })
+        //   .catch((error) => {
+        //     const message = validFirebaseErrorMessage(error);
+        //     if (message) dispatch(setErrorMessage(message));
+        //   });
       } catch (e) {
         console.log('error : ', e);
       } finally {
         setLoading(false);
       }
     },
-    [dispatch, email, setCurrentActivePage],
+    [dispatch, email],
   );
 
   return (

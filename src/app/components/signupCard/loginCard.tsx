@@ -37,7 +37,7 @@ interface Props {
   setCurrentActivePage?: (num: number) => void;
 }
 
-export default function LoginCard({ login, isPadding, setCurrentActivePage }: Props) {
+export default function SignupCard({ login, isPadding, setCurrentActivePage }: Props) {
   const dispatch = useDispatch();
   const router = useRouter();
   const pathName = usePathname();
@@ -180,7 +180,7 @@ export default function LoginCard({ login, isPadding, setCurrentActivePage }: Pr
                   </Logo>
                 )}
                 <Firstblock>
-                  <Heading>LOGIN</Heading>
+                  <Heading>SIGNUP</Heading>
                   {/* <Buttons>
                     <Button
                       title='Continue with Google'
@@ -236,9 +236,9 @@ export default function LoginCard({ login, isPadding, setCurrentActivePage }: Pr
                   />
                 </Thirdblock>
                 <Lastblock><a onClick={() => {
-                  if (setCurrentActivePage) setCurrentActivePage(POSSIBLE_MEMBERSHIP_PAGES.SIGNUP)
+                  if (setCurrentActivePage) setCurrentActivePage(POSSIBLE_MEMBERSHIP_PAGES.LOGIN)
                   else router.push('/login')
-                }}>Signup</a></Lastblock>
+                }}>Back to Login</a></Lastblock>
                 <Lastblock>
                   <span>By continuing, you agree to b2b creative’s</span>
                   <span>

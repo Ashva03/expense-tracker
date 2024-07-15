@@ -11,6 +11,7 @@ import { isEmpty } from '@/helper/common';
 import { useSelector } from 'react-redux';
 import { RootReducerInterface } from '@/app/Interface/RootReducerInterface';
 import { POSSIBLE_MEMBERSHIP_PAGES } from '@/global/constants';
+import SignupCard from '../signupCard/loginCard';
 
 interface props {
   sliderlist1: ImageDataInterface[];
@@ -49,6 +50,9 @@ export default function Login(props: props) {
           <DIV isSuccessfullPage={currentActivePage === POSSIBLE_MEMBERSHIP_PAGES.SUCCESSFULL_RESULT}>
             {currentActivePage === POSSIBLE_MEMBERSHIP_PAGES.LOGIN && (
               <LoginCard login isPadding={true} setCurrentActivePage={setCurrentActivePage} />
+            )}
+            {currentActivePage === POSSIBLE_MEMBERSHIP_PAGES.SIGNUP && (
+              <SignupCard login isPadding={true} setCurrentActivePage={setCurrentActivePage} />
             )}
             {currentActivePage === POSSIBLE_MEMBERSHIP_PAGES.FORGOT && (
               <ForgotPassword setCurrentActivePage={setCurrentActivePage} />

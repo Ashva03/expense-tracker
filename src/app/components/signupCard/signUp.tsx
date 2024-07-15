@@ -1,25 +1,12 @@
 'use client';
 import React, { useCallback, useEffect, useState } from 'react';
-import {
-  Card,
-  Content,
-  Firstblock,
-  Heading,
-  Lastblock,
-  Logo,
-  Maindiv,
-  Secondblock,
-  Thirdblock,
-} from './styles';
+import { Card, Content, Firstblock, Heading, Lastblock, Logo, Maindiv, Secondblock, Thirdblock } from './styles';
 import { Container } from '@/app/styles/commonStyle';
 import Button from '../button/button';
 import InputComponent from '../input/input';
 import Link from 'next/link';
 import { images } from '@/app/assets/images';
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-} from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '@/utils/firebase';
 import { isEmailValid, isEmpty } from '@/helper/common';
 import { useDispatch, useSelector } from 'react-redux';
@@ -41,9 +28,9 @@ export default function SignupCard({ login, isPadding, setCurrentActivePage }: P
   const dispatch = useDispatch();
   const router = useRouter();
   const pathName = usePathname();
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isEmail, setIsEmail] = useState(false);
   const [loading, setLoading] = useState(false);
   const userSelector = useSelector((state: RootReducerInterface) => state.user);
   const { userDetails } = userSelector || {};
@@ -75,29 +62,25 @@ export default function SignupCard({ login, isPadding, setCurrentActivePage }: P
   const handleRegister = useCallback(async () => {
     setLoading(true);
     try {
-      const result = await createUserWithEmailAndPassword(auth, email, password);
-      const { user } = result || {};
-      if (!isEmpty(user?.email) && user?.uid) {
-        const responseAdd = await dispatch(addUserDetails({ uid: user?.uid, email: user?.email || '' }));
-        if (responseAdd) {
-          const userData = await dispatch(getUserDataByEmail(email));
-          UserPreferenceSingleton.getInstance().setCurrentUser(userData);
-          await dispatch(appInit());
-          router.push('/setting');
-        }
-      }
+      console.log('data', email, name, password);
     } catch (error) {
       dispatch(setErrorMessage(`Something went wrong : ${error}`));
     } finally {
       setLoading(false);
     }
-  }, [dispatch, email, password, router]);
+  }, [dispatch, email, name, password]);
 
   const handleSubmit = useCallback(
     async (e: React.SyntheticEvent) => {
       e.preventDefault();
-      if (isEmpty(email)) {
+      if (isEmpty(name)) {
+        dispatch(setErrorMessage(`Please enter name`));
+        return;
+      } else if (isEmpty(email)) {
         dispatch(setErrorMessage(`Please enter email`));
+        return;
+      } else if (!isEmailValid(email)) {
+        dispatch(setErrorMessage(`Please enter correct email`));
         return;
       } else if (isEmpty(password)) {
         dispatch(setErrorMessage(`Please enter password`));
@@ -105,19 +88,20 @@ export default function SignupCard({ login, isPadding, setCurrentActivePage }: P
       }
       setLoading(true);
       try {
-        const userData = await dispatch(getUserDataByEmail(email));
-        if (!isEmpty(userData)) {
-          await handleLogin();
-        } else {
-          await handleRegister();
-        }
+        await handleRegister();
+        // const userData = await dispatch(getUserDataByEmail(email));
+        // if (!isEmpty(userData)) {
+        //   await handleLogin();
+        // } else {
+        //   await handleRegister();
+        // }
       } catch (err: any) {
         dispatch(setErrorMessage(`Failed to register : ${err}`));
       } finally {
         setLoading(false);
       }
     },
-    [dispatch, email, handleLogin, handleRegister, password],
+    [dispatch, email, handleRegister, name, password],
   );
 
   // const handleGoogleLogin = useCallback(async () => {
@@ -154,25 +138,13 @@ export default function SignupCard({ login, isPadding, setCurrentActivePage }: P
   //   }
   // }, [dispatch, router]);
 
-  const checkEmail = useCallback(
-    (e: React.SyntheticEvent) => {
-      e.preventDefault();
-      if (!isEmailValid(email)) {
-        dispatch(setErrorMessage(`Please enter correct email`));
-        setIsEmail(false);
-        return;
-      }
-      setIsEmail(true);
-    },
-    [dispatch, email],
-  );
   if (!isEmpty(userDetails?.id)) return <React.Fragment></React.Fragment>;
   else
     return (
       <>
         <Maindiv login={login}>
           <Container isPadding={isPadding}>
-            <Card login={login} onSubmit={isEmail ? handleSubmit : checkEmail}>
+            <Card login={login} onSubmit={handleSubmit}>
               <Content login={login}>
                 {login && (
                   <Logo>
@@ -202,31 +174,40 @@ export default function SignupCard({ login, isPadding, setCurrentActivePage }: P
                 </Secondblock>
                 <Thirdblock>
                   <InputComponent
-                    title='Email'
-                    placeholder={'Enter your email address'}
+                    title='Name'
+                    placeholder={'Enter your name'}
                     className='input'
-                    type='email'
-                    value={email}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
+                    type='text'
+                    value={name}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
                   />
-                  <div className={`input-container ${isEmail ? 'active' : ''}`}>
-                    {isEmail && (
-                      <InputComponent
-                        title='Password'
-                        placeholder={'Enter your password'}
-                        className='input'
-                        login
-                        type='password'
-                        value={password}
-                        onForgotClick={() => {
-                          if (setCurrentActivePage) setCurrentActivePage(POSSIBLE_MEMBERSHIP_PAGES.FORGOT);
-                        }}
-                        onChange={(e) => setPassword(e.target.value)}
-                      />
-                    )}
+                  <div className={`input-container active`}>
+                    <InputComponent
+                      title='Email'
+                      placeholder={'Enter your email address'}
+                      className='input'
+                      type='email'
+                      value={email}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
+                    />
+                  </div>
+                  <div style={{ marginBottom: '22px' }}>
+                    <InputComponent
+                      title='Password'
+                      placeholder={'Enter your password'}
+                      className='input'
+                      login
+                      type='password'
+                      newpassword={true}
+                      value={password}
+                      onForgotClick={() => {
+                        if (setCurrentActivePage) setCurrentActivePage(POSSIBLE_MEMBERSHIP_PAGES.FORGOT);
+                      }}
+                      onChange={(e) => setPassword(e.target.value)}
+                    />
                   </div>
                   <Button
-                    title={isEmail ? 'Continue' : 'Continue with Email'}
+                    title={'Create'}
                     type='submit'
                     secondary={true}
                     width={true}
@@ -235,10 +216,15 @@ export default function SignupCard({ login, isPadding, setCurrentActivePage }: P
                     isLoading={loading}
                   />
                 </Thirdblock>
-                <Lastblock><a onClick={() => {
-                  if (setCurrentActivePage) setCurrentActivePage(POSSIBLE_MEMBERSHIP_PAGES.LOGIN)
-                  else router.push('/login')
-                }}>Back to Login</a></Lastblock>
+                <Lastblock>
+                  <a
+                    onClick={() => {
+                      if (setCurrentActivePage) setCurrentActivePage(POSSIBLE_MEMBERSHIP_PAGES.LOGIN);
+                      else router.push('/login');
+                    }}>
+                    Back to Login
+                  </a>
+                </Lastblock>
                 <Lastblock>
                   <span>By continuing, you agree to b2b creative’s</span>
                   <span>

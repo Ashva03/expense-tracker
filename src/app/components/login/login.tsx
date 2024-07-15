@@ -11,7 +11,7 @@ import { isEmpty } from '@/helper/common';
 import { useSelector } from 'react-redux';
 import { RootReducerInterface } from '@/app/Interface/RootReducerInterface';
 import { POSSIBLE_MEMBERSHIP_PAGES } from '@/global/constants';
-import SignupCard from '../signupCard/loginCard';
+import SignupCard from '../signupCard/signUp';
 
 interface props {
   sliderlist1: ImageDataInterface[];

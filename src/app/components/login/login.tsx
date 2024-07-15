@@ -10,8 +10,8 @@ import { usePathname, useRouter } from 'next/navigation';
 import { isEmpty } from '@/helper/common';
 import { useSelector } from 'react-redux';
 import { RootReducerInterface } from '@/app/Interface/RootReducerInterface';
-import { POSSIBLE_MEMBERSHIP_PAGES } from '@/global/constants';
 import SignupCard from '../signupCard/signUp';
+import { LOGIN_ANIMATION_IMAGES, LOGIN_ANIMATION_IMAGES2, LOGIN_ANIMATION_IMAGES3, POSSIBLE_MEMBERSHIP_PAGES } from '@/global/constants';
 
 interface props {
   sliderlist1: ImageDataInterface[];
@@ -37,9 +37,9 @@ export default function Login(props: props) {
         <Main>
           <Slider>
             <VerticalSlider
-              slider1Data={props?.sliderlist1 || []}
-              slider2Data={props?.sliderlist2 || []}
-              slider3Data={props?.sliderlist3 || []}
+              slider1Data={LOGIN_ANIMATION_IMAGES || []}
+              slider2Data={LOGIN_ANIMATION_IMAGES2 || []}
+              slider3Data={LOGIN_ANIMATION_IMAGES3 || []}
               isLogin={true}
             />
             <Gradient>

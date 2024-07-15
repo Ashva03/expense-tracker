@@ -2,12 +2,11 @@
 
 import { Animation, Imagediv, Wrapper } from './styles';
 import { useEffect, useMemo, useState } from 'react';
-import { ImageDataInterface } from '@/app/Interface/homePageInterface';
 
 interface imageData {
-  slider1Data: ImageDataInterface[];
-  slider2Data: ImageDataInterface[];
-  slider3Data: ImageDataInterface[];
+  slider1Data: string[];
+  slider2Data: string[];
+  slider3Data: string[];
   isLogin?: boolean;
 }
 
@@ -15,25 +14,25 @@ export default function VerticalSlider({ slider1Data, slider2Data, slider3Data, 
   const [isSmallScreen, setIsSmallScreen] = useState(false);
 
   const verticalSlider1Images = useMemo(() => {
-    return slider1Data?.map((item: ImageDataInterface, index: number) => (
+    return slider1Data?.map((item: string, index: number) => (
       <div key={index} className='image-item'>
-        <img src={item.url} alt='' />
+        <img src={item} alt='' />
       </div>
     ));
   }, [slider1Data]);
 
   const verticalSlider2Images = useMemo(() => {
-    return slider2Data?.map((item: ImageDataInterface, index: number) => (
+    return slider2Data?.map((item: string, index: number) => (
       <div key={index} className='image-item'>
-        <img src={item.url} alt='' />
+        <img src={item} alt='' />
       </div>
     ));
   }, [slider2Data]);
 
   const verticalSlider3Images = useMemo(() => {
-    return slider3Data?.map((item: ImageDataInterface, index: number) => (
+    return slider3Data?.map((item: string, index: number) => (
       <div key={index} className='image-item'>
-        <img src={item.url} alt='' />
+        <img src={item} alt='' />
       </div>
     ));
   }, [slider3Data]);

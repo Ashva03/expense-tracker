@@ -1,21 +1,13 @@
 'use client';
 import React, { useCallback, useEffect, useState } from 'react';
-import {
-  Card,
-  Content,
-  Firstblock,
-  Heading,
-  Lastblock,
-  Logo,
-  Maindiv,
-  Secondblock,
-  Thirdblock,
-} from './styles';
+import { Card, Content, Firstblock, Heading, Lastblock, Logo, Maindiv, Secondblock, Thirdblock } from './styles';
 import { Container } from '@/app/styles/commonStyle';
 import Button from '../button/button';
 import InputComponent from '../input/input';
 import Link from 'next/link';
 import { images } from '@/app/assets/images';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
+import { auth } from '@/utils/firebase';
 import { isEmailValid, isEmpty } from '@/helper/common';
 import { useDispatch, useSelector } from 'react-redux';
 import { usePathname, useRouter } from 'next/navigation';
@@ -59,7 +51,7 @@ export default function LoginCard({ login, isPadding, setCurrentActivePage }: Pr
       setLoading(true);
       try {
         const payload = { email, password };
-        console.log('payload login', payload)
+        console.log('payload login', payload);
       } catch (err: any) {
         dispatch(setErrorMessage(`Failed to register : ${err}`));
       } finally {
@@ -102,6 +94,7 @@ export default function LoginCard({ login, isPadding, setCurrentActivePage }: Pr
   //     dispatch(setErrorMessage(`Error logging in with Google : ${error}`));
   //   }
   // }, [dispatch, router]);
+  console.log('---', `input-container ${isEmail ? 'active' : ''}`);
 
   const checkEmail = useCallback(
     (e: React.SyntheticEvent) => {
@@ -184,10 +177,15 @@ export default function LoginCard({ login, isPadding, setCurrentActivePage }: Pr
                     isLoading={loading}
                   />
                 </Thirdblock>
-                <Lastblock><a onClick={() => {
-                  if (setCurrentActivePage) setCurrentActivePage(POSSIBLE_MEMBERSHIP_PAGES.SIGNUP)
-                  else router.push('/login')
-                }}>Signup</a></Lastblock>
+                <Lastblock>
+                  <a
+                    onClick={() => {
+                      if (setCurrentActivePage) setCurrentActivePage(POSSIBLE_MEMBERSHIP_PAGES.SIGNUP);
+                      else router.push('/login');
+                    }}>
+                    Signup
+                  </a>
+                </Lastblock>
                 <Lastblock>
                   <span>By continuing, you agree to b2b creative’s</span>
                   <span>

@@ -8,15 +8,16 @@ interface Props {
 const Maindiv = styled.div<Props>`
   background-color: ${colors.offWhite};
   padding: 32px 0 120px;
-  ${(props) =>
-    props.login &&
-    css`
-      padding: 0;
-      @media (max-width: 768px) {
-        background-color: ${colors.white};
-      }
-    `}
-  @media (max-width: 768px) {
+  width: 799px;
+    ${(props) =>
+      props.login &&
+      css`
+        padding: 0;
+        @media (max-width: 768px) {
+          background-color: ${colors.white};
+        }
+      `}
+    @media (max-width: 768px) {
     padding: 0 0 80px;
   }
   @media (max-width: 449px) {
@@ -61,8 +62,8 @@ const Content = styled.div<Props>`
   }
   @media (max-width: 449px) {
     ${(props) =>
-    props.login &&
-    css`
+      props.login &&
+      css`
         padding: 0;
         @media (max-width: 768px) {
           padding: 0;

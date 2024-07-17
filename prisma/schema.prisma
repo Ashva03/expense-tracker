@@ -1,40 +1,45 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
-// Next steps:
-// 1. Set the DATABASE_URL in the .env file to point to your existing database. If your database has no tables yet, read https://pris.ly/d/getting-started
-// 2. Set the provider of the datasource block in schema.prisma to match your database: postgresql, mysql, sqlite, sqlserver, mongodb or cockroachdb.
-// 3. Run npx prisma db pull to turn your database schema into a Prisma schema.
-// 4. Run npx prisma generate to generate the Prisma Client. You can then start querying your database.
-
 generator client {
   provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "mongodb" // postgresql, mysql, sqlite, sqlserver, mongodb or cockroachdb
+  provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
-model SaveBrand {
-  id           String   @id @default(nanoid()) @map("_id")
-  brand_id     String
+model Company {
+  id            String   @id @map("_id")
+  created_by    String
+  created_time  DateTime @db.Date
+  favourite     String[]
+  name          String
+  profile_image String
+  updated_time  DateTime @db.Date
+  users         String[]
+}
+
+model Transaction {
+  id           String   @id @map("_id")
+  amount       Float
+  company_id   String
   created_by   String
-  created_time DateTime @default(now()) @db.Date
+  created_time DateTime @db.Date
+  desc         String
+  title        String
+  type         Int
+  updated_by   String
+  updated_time DateTime @db.Date
   user_id      String
 }
 
 model User {
-  id            String   @id @default(nanoid()) @map("_id")
+  id            String   @id @map("_id")
   created_by    String
-  created_time  DateTime @default(now()) @db.Date
+  created_time  DateTime @db.Date
   email         String
-  name          String?
-  profile_image String?
+  name          String
+  profile_image String
+  uid           String
   updated_by    String
-  updated_time  DateTime @default(now()) @db.Date
-  uid           String   @unique
+  updated_time  DateTime @db.Date
 }

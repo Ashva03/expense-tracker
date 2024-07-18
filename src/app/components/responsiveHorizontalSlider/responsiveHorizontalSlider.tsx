@@ -1,18 +1,17 @@
 'use client';
 import React, { useEffect, useMemo } from 'react';
 import { AppsAnimated } from './styles';
-import { ImageDataInterface } from '@/app/Interface/homePageInterface';
 interface imageData {
-  slider1Data: ImageDataInterface[];
-  slider2Data: ImageDataInterface[];
-  slider3Data: ImageDataInterface[];
+  slider1Data: string[];
+  slider2Data: string[];
+  slider3Data: string[];
 }
 const ResponsiveHorizontalSlider = ({ slider1Data, slider2Data, slider3Data }: imageData) => {
   const featurecontent1View = useMemo(() => {
     return slider1Data.map((item, index) => {
       return (
         <div key={index} className='imgdiv'>
-          <img src={item?.url} alt='' width={180} height={180} className='img' />
+          <img src={item} alt='' width={180} height={180} className='img' />
         </div>
       );
     });
@@ -21,7 +20,7 @@ const ResponsiveHorizontalSlider = ({ slider1Data, slider2Data, slider3Data }: i
     return slider2Data.map((item, index) => {
       return (
         <div key={index} className='imgdiv'>
-          <img src={item?.url} alt='' width={180} height={180} className='img' />
+          <img src={item} alt='' width={180} height={180} className='img' />
         </div>
       );
     });
@@ -30,7 +29,7 @@ const ResponsiveHorizontalSlider = ({ slider1Data, slider2Data, slider3Data }: i
     return slider3Data.map((item, index) => {
       return (
         <div key={index} className='imgdiv'>
-          <img src={item?.url} alt='' width={180} height={180} className='img' />
+          <img src={item} alt='' width={180} height={180} className='img' />
         </div>
       );
     });

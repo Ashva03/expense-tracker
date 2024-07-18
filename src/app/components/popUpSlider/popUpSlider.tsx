@@ -16,7 +16,6 @@ import {
   Title,
   Top,
 } from './style';
-import ModalCustom from '../modelCustom/modelCustom';
 import SVGIcon from '@/app/assets/SVGIcon';
 import { BrandAdsData } from '@/app/Interface/brandInterface';
 import { useSelector } from 'react-redux';
@@ -170,7 +169,6 @@ const PopUpSider: React.FC<Props> = ({ onClose, sliderData }) => {
             ))}
           </Slider>
         </PopSlide>
-        <ModalCustom />
       </PopModalDiv>
     </>
   );

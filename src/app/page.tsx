@@ -7,8 +7,8 @@ export default async function Home() {
   return (
     <>
       <HeroSection
-        title={'Expense Manager - Your Personal Financial Tracke'}
-        description={'Welcome to Expense Manager, your go-to solution for managing income and expenses effortlessly. Keep track of your finances, generate detailed reports, and gain insights to make informed financial decisions. Start now and take control of your money!'}
+        title={'Expense Tracker - Your Personal Financial Tracke'}
+        description={'Welcome to Expense Tracker, your go-to solution for managing income and expenses effortlessly. Keep track of your finances, generate detailed reports, and gain insights to make informed financial decisions. Start now and take control of your money!'}
         tag={'Effortless Expense & Income Tracking'}
         buttonText={'Explore more'}
       />

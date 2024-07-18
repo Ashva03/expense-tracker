@@ -19,9 +19,8 @@ import {
 import SVGIcon from '@/app/assets/SVGIcon';
 import { Container } from '@/app/styles/commonStyle';
 
-interface Props {}
+interface Props { }
 const Footer: React.FC<Props> = (Props) => {
-  const {} = Props;
   return (
     <Container>
       <MainDiv>
@@ -31,7 +30,7 @@ const Footer: React.FC<Props> = (Props) => {
               <img src={images.Logo.src} alt='logo' width={240} height={44} className='logo' />
             </FooterLogo>
             <Description>
-              Suspendisse dictum nibh proin eget orci interdum. Urna pharetra blandit tellus semper et volutpat. Id.
+              Thank you for visiting Expense Tracker. Manage your finances better with our easy-to-use tracking tools. Stay informed and in control of your financial journey.
             </Description>
           </Top>
           <LinkedinIcon>
@@ -70,7 +69,7 @@ const Footer: React.FC<Props> = (Props) => {
         </RightContent>
       </MainDiv>
       <CopyRight>
-        <CopyRightText>© 2024, B2B Creative, Inc</CopyRightText>
+        <CopyRightText>© 2024, expense tracker</CopyRightText>
       </CopyRight>
     </Container>
   );

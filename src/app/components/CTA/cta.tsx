@@ -5,17 +5,16 @@ import { Background, BottomContent, CtaBox, Heading, Label, TopContent } from '.
 import InputComponent from '../input/input';
 import Button from '../button/button';
 
-interface Props {}
+interface Props { }
 const CTA: React.FC<Props> = (Props) => {
-  const { ...props } = Props;
   return (
     <>
       <Container>
         <CtaBox>
           <Background />
           <TopContent>
-            <Heading>Subscribe to our newsletter to stay in touch with the latest.</Heading>
-            <Label>Subscribe to our newsletter to stay in touch with the latest.</Label>
+            <Heading>Subscribe to receive financial tips and updates straight to your inbox.</Heading>
+            <Label>Stay Updated with Our Financial Tips & Updates</Label>
           </TopContent>
           <BottomContent>
             <InputComponent placeholder={'Email Address'} labelCta={true} className='input' />

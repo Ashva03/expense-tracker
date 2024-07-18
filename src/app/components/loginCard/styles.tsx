@@ -8,7 +8,7 @@ interface Props {
 const Maindiv = styled.div<Props>`
   background-color: ${colors.offWhite};
   padding: 32px 0 120px;
-  width: 799px;
+  /* width: 799px; */
   ${(props) =>
     props.login &&
     css`
@@ -52,6 +52,7 @@ const Card = styled.form<Props>`
 `;
 const Content = styled.div<Props>`
   padding: 72px;
+  min-width: 550px;
   display: flex;
   flex-direction: column;
   gap: 32px;
@@ -59,11 +60,13 @@ const Content = styled.div<Props>`
   @media (max-width: 768px) {
     padding: 60px;
     gap: 24px;
+    min-width: auto;
   }
   @media (max-width: 449px) {
     ${(props) =>
-      props.login &&
-      css`
+    props.login &&
+    css`
+        min-width: auto;
         padding: 0;
         @media (max-width: 768px) {
           padding: 0;

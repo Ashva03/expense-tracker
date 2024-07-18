@@ -128,14 +128,17 @@ export default function Header() {
               </Logo>
               <Rightdiv>
                 <Options>
-                  <Link href={'/'}>
-                    <Option>About</Option>
+                  <Link href={'/dashboard'}>
+                    <Option>Dashboard</Option>
                   </Link>
-                  <Link href={'/'}>
-                    <Option>Services</Option>
+                  <Link href={'/entries'}>
+                    <Option>Entries</Option>
                   </Link>
-                  <Link href={'/newsletter'}>
-                    <Option>Newsletter</Option>
+                  <Link href={'/split-entry'}>
+                    <Option>Split Entries</Option>
+                  </Link>
+                  <Link href={'/expense-report'}>
+                    <Option>Expense Report</Option>
                   </Link>
                   <Line />
                 </Options>
@@ -223,14 +226,17 @@ export default function Header() {
             <Overlayblock onClick={handleClose}>
               <Mobilemenu>
                 <Mobileoption>
-                  <div onClick={() => handleMenuOptionClick('/')}>
-                    <Mobilelink>About</Mobilelink>
+                  <div onClick={() => handleMenuOptionClick('/dashboard')}>
+                    <Mobilelink>Dashboard</Mobilelink>
                   </div>
-                  <div onClick={() => handleMenuOptionClick('/')}>
-                    <Mobilelink>Services</Mobilelink>
+                  <div onClick={() => handleMenuOptionClick('/entries')}>
+                    <Mobilelink>Entries</Mobilelink>
                   </div>
-                  <div onClick={() => handleMenuOptionClick('/newsletter')}>
-                    <Mobilelink>Newsletter</Mobilelink>
+                  <div onClick={() => handleMenuOptionClick('/split-entry')}>
+                    <Mobilelink>Split Entries</Mobilelink>
+                  </div>
+                  <div onClick={() => handleMenuOptionClick('/expense-report')}>
+                    <Mobilelink>Expense Report</Mobilelink>
                   </div>
                 </Mobileoption>
               </Mobilemenu>

@@ -41,14 +41,17 @@ const Footer: React.FC<Props> = (Props) => {
           <Columns>
             <Heading>Company</Heading>
             <Options>
-              <Link href={'/'}>
-                <CustomOption>About Us</CustomOption>
+              <Link href={'/dashboard'}>
+                <CustomOption>Dashboard</CustomOption>
               </Link>
-              <Link href={'/'}>
-                <CustomOption>Services</CustomOption>
+              <Link href={'/entries'}>
+                <CustomOption>Entries</CustomOption>
               </Link>
-              <Link href={'/newsletter'}>
-                <CustomOption>Newsletter</CustomOption>
+              <Link href={'/split-entry'}>
+                <CustomOption>Split Entries</CustomOption>
+              </Link>
+              <Link href={'/expense-report'}>
+                <CustomOption>Expense Report</CustomOption>
               </Link>
             </Options>
           </Columns>

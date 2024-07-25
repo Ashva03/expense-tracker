@@ -6,17 +6,14 @@ import Button from '../button/button';
 import InputComponent from '../input/input';
 import Link from 'next/link';
 import { images } from '@/app/assets/images';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '@/utils/firebase';
 import { isEmailValid, isEmpty } from '@/helper/common';
 import { useDispatch, useSelector } from 'react-redux';
-import { addUserDetails, getUserDataByEmail } from '@/services/userServices';
 import { usePathname, useRouter } from 'next/navigation';
 import UserPreferenceSingleton from '@/helper/userPreferenceSingleton';
-import { appInit } from '@/helper/appInitHelper';
 import { setErrorMessage } from '@/actions/messageActions';
 import { RootReducerInterface } from '@/app/Interface/RootReducerInterface';
 import { POSSIBLE_MEMBERSHIP_PAGES } from '@/global/constants';
+import { signupUserDetails } from '@/serverActions/userActions';
 
 interface Props {
   login?: boolean;
@@ -41,35 +38,6 @@ export default function SignupCard({ login, isPadding, setCurrentActivePage }: P
     }
   }, [pathName, router, userDetails?.id]);
 
-  const handleLogin = useCallback(async () => {
-    setLoading(true);
-    try {
-      const result = await signInWithEmailAndPassword(auth, email, password);
-      const { user } = result || {};
-      if (user?.uid) {
-        const userData = await dispatch(getUserDataByEmail(email));
-        UserPreferenceSingleton.getInstance().setCurrentUser(userData);
-        await dispatch(appInit());
-        router.push('/');
-      }
-    } catch (error) {
-      dispatch(setErrorMessage(`Login error: : ${error}`));
-    } finally {
-      setLoading(false);
-    }
-  }, [dispatch, email, password, router]);
-
-  const handleRegister = useCallback(async () => {
-    setLoading(true);
-    try {
-      console.log('data', email, name, password);
-    } catch (error) {
-      dispatch(setErrorMessage(`Something went wrong : ${error}`));
-    } finally {
-      setLoading(false);
-    }
-  }, [dispatch, email, name, password]);
-
   const handleSubmit = useCallback(
     async (e: React.SyntheticEvent) => {
       e.preventDefault();
@@ -88,7 +56,14 @@ export default function SignupCard({ login, isPadding, setCurrentActivePage }: P
       }
       setLoading(true);
       try {
-        await handleRegister();
+        const payload = {
+          name, password, email
+        }
+        const result = await signupUserDetails(payload)
+        console.log('result', result)
+        if (result) {
+
+        }
         // const userData = await dispatch(getUserDataByEmail(email));
         // if (!isEmpty(userData)) {
         //   await handleLogin();
@@ -96,12 +71,13 @@ export default function SignupCard({ login, isPadding, setCurrentActivePage }: P
         //   await handleRegister();
         // }
       } catch (err: any) {
+        console.log('errrrr', err)
         dispatch(setErrorMessage(`Failed to register : ${err}`));
       } finally {
         setLoading(false);
       }
     },
-    [dispatch, email, handleRegister, name, password],
+    [dispatch, email, name, password],
   );
 
   // const handleGoogleLogin = useCallback(async () => {

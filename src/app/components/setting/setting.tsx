@@ -35,7 +35,7 @@ import { RootReducerInterface } from '@/app/Interface/RootReducerInterface';
 import { setUserSettingInput, updateUserSettingInput } from '@/actions/userActions';
 import { setErrorMessage } from '@/actions/messageActions';
 import { getFirebaseUrlFromFile, isEmpty } from '@/helper/common';
-import { getUserDataByUID, updateUserDetails } from '@/services/userServices';
+import { getUserDataById, updateUserDetails } from '@/services/userServices';
 import { SetNewPassword } from '../setPassword/setPassword';
 import { useRouter } from 'next/navigation';
 
@@ -147,22 +147,14 @@ export const SettingComponent = () => {
       const result = await dispatch(updateUserDetails(userDetails?.id, payload));
       if (result) {
         setProfileImage({});
-        dispatch(getUserDataByUID(userDetails?.uid));
+        dispatch(getUserDataById(userDetails?.id));
       }
     } catch (e) {
       console.log('error : ', e);
     } finally {
       setLoading(false);
     }
-  }, [
-    dispatch,
-    profileImage,
-    userDetails?.id,
-    userDetails?.profile_image,
-    userDetails?.uid,
-    userSettingInput?.name,
-    userSettingInput?.profileImage,
-  ]);
+  }, [dispatch, profileImage, userDetails?.id, userDetails?.profile_image, userSettingInput?.name, userSettingInput?.profileImage]);
 
   useEffect(() => {
     if (isSetPasswordModalOpen || isDeleteModalOpen) {

@@ -14,6 +14,7 @@ import { setErrorMessage } from '@/actions/messageActions';
 import { RootReducerInterface } from '@/app/Interface/RootReducerInterface';
 import { POSSIBLE_MEMBERSHIP_PAGES } from '@/global/constants';
 import { signupUserDetails } from '@/serverActions/userActions';
+import { appInit } from '@/helper/appInitHelper';
 
 interface Props {
   login?: boolean;
@@ -60,24 +61,18 @@ export default function SignupCard({ login, isPadding, setCurrentActivePage }: P
           name, password, email
         }
         const result = await signupUserDetails(payload)
-        console.log('result', result)
         if (result) {
-
+          await UserPreferenceSingleton.getInstance().setCurrentUser(result);
+          await dispatch(appInit());
+          router.push('/');
         }
-        // const userData = await dispatch(getUserDataByEmail(email));
-        // if (!isEmpty(userData)) {
-        //   await handleLogin();
-        // } else {
-        //   await handleRegister();
-        // }
       } catch (err: any) {
-        console.log('errrrr', err)
         dispatch(setErrorMessage(`Failed to register : ${err}`));
       } finally {
         setLoading(false);
       }
     },
-    [dispatch, email, name, password],
+    [dispatch, email, name, password, router],
   );
 
   // const handleGoogleLogin = useCallback(async () => {

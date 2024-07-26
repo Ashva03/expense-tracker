@@ -1,15 +1,21 @@
 'use server';
 
-import { SignupInterface } from '@/interfaces/userInterfaces';
+import { LoginInterface, SignupInterface } from '@/interfaces/userInterfaces';
 import { prisma } from '../../prisma/client';
+import { isEmpty } from '@/helper/common';
+import { UserUpdatePayloadInterface } from '@/app/Interface/userInterface';
 
 // import { UserAddPayloadInterface, UserUpdatePayloadInterface } from '@/app/Interface/userInterface';
 // import { prisma } from '../../prisma/client';
 
-// export const getAllUsers = async () => {
-//   const allUsers = await prisma.user.findMany();
-//   return allUsers;
-// };
+export const getUserDetails: any = async ({ id }: { id: string }) => {
+  const userDetails = await prisma.user.findFirst({ where: { id: id } });
+  return userDetails;
+};
+
+export const updateUser = async (id: string, user: UserUpdatePayloadInterface) => {
+  return await prisma.user.update({ where: { id }, data: user });
+};
 
 export const signupUserDetails = async ({ email, name, password }: SignupInterface) => {
   const allUsers = await prisma.user.findMany();
@@ -18,7 +24,7 @@ export const signupUserDetails = async ({ email, name, password }: SignupInterfa
     throw new Error('Email already exist!');
   }
   const newUser: any = {
-    email,
+    email: email.toLowerCase(),
     name,
     password,
     user_name: name,
@@ -29,13 +35,22 @@ export const signupUserDetails = async ({ email, name, password }: SignupInterfa
       time_zone_id: '',
     },
     normalized_email: email,
-    // created_at: new Date(),
-    // updated_at: new Date(),
   };
   const user = await prisma.user.create({
     data: newUser,
   });
   return user;
+};
+
+export const loginUserDetails = async ({ email, password }: LoginInterface) => {
+  const user = await prisma.user.findFirst({
+    where: { email: email.toLowerCase(), password },
+  });
+  if (isEmpty(user)) {
+    throw new Error('Invalid email or password!');
+  } else {
+    return user;
+  }
 };
 
 // export const getUserByUid = async (uid: string) => {

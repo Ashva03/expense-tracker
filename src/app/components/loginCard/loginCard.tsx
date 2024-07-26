@@ -6,14 +6,16 @@ import Button from '../button/button';
 import InputComponent from '../input/input';
 import Link from 'next/link';
 import { images } from '@/app/assets/images';
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from 'firebase/auth';
-import { auth } from '@/utils/firebase';
 import { isEmailValid, isEmpty } from '@/helper/common';
 import { useDispatch, useSelector } from 'react-redux';
 import { usePathname, useRouter } from 'next/navigation';
 import { setErrorMessage } from '@/actions/messageActions';
 import { RootReducerInterface } from '@/app/Interface/RootReducerInterface';
 import { POSSIBLE_MEMBERSHIP_PAGES } from '@/global/constants';
+import { loginUserDetails } from '@/serverActions/userActions';
+import { LoginInterface } from '@/interfaces/userInterfaces';
+import UserPreferenceSingleton from '@/helper/userPreferenceSingleton';
+import { appInit } from '@/helper/appInitHelper';
 
 interface Props {
   login?: boolean;
@@ -50,15 +52,21 @@ export default function LoginCard({ login, isPadding, setCurrentActivePage }: Pr
       }
       setLoading(true);
       try {
-        const payload = { email, password };
-        console.log('payload login', payload);
+        const payload: LoginInterface = { email, password };
+        const result = await loginUserDetails(payload)
+        if (result) {
+          await UserPreferenceSingleton.getInstance().setCurrentUser(result);
+          await dispatch(appInit());
+          router.push('/')
+        }
       } catch (err: any) {
-        dispatch(setErrorMessage(`Failed to register : ${err}`));
+        console.log('error', err)
+        dispatch(setErrorMessage(String(err)));
       } finally {
         setLoading(false);
       }
     },
-    [dispatch, email, password],
+    [dispatch, email, password, router],
   );
 
   // const handleGoogleLogin = useCallback(async () => {
@@ -94,7 +102,6 @@ export default function LoginCard({ login, isPadding, setCurrentActivePage }: Pr
   //     dispatch(setErrorMessage(`Error logging in with Google : ${error}`));
   //   }
   // }, [dispatch, router]);
-  console.log('---', `input-container ${isEmail ? 'active' : ''}`);
 
   const checkEmail = useCallback(
     (e: React.SyntheticEvent) => {

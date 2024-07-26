@@ -52,7 +52,7 @@ const Card = styled.form<Props>`
 `;
 const Content = styled.div<Props>`
   padding: 72px;
-  min-width: 550px;
+  min-width: 450px;
   display: flex;
   flex-direction: column;
   gap: 32px;

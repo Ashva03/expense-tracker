@@ -7,6 +7,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+type UserDetails {
+  app_name     String
+  country_code String
+  extra        String
+  time_zone_id String
+}
+
 model Company {
   id            String   @id @map("_id")
   created_by    String
@@ -33,13 +40,14 @@ model Transaction {
 }
 
 model User {
-  id            String   @id @map("_id")
-  created_by    String
-  created_time  DateTime @db.Date
-  email         String
-  name          String
-  profile_image String
-  uid           String
-  updated_by    String
-  updated_time  DateTime @db.Date
+  id               String      @id @default(auto()) @map("_id") @db.ObjectId
+  created_at       DateTime    @db.Date
+  details          UserDetails
+  email            String
+  name             String
+  normalized_email String
+  password         String
+  profile_image    String?
+  updated_at       DateTime    @db.Date
+  user_name        String
 }

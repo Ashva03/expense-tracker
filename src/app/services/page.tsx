@@ -1,16 +1,8 @@
-import React from 'react';
-import { ServiceHeroSection } from '../components/serviceHeroSection/serviceHeroSection';
-import { ServiceSection } from '../components/serviceSection/serviceSection';
-import AdCreationServiceSection from '../components/adCreationServiceSection/adCreationServiceSection';
-import SuccessService from '../components/successService/successService';
+import React from 'react'
+import Services from './services'
 
-export default function Service() {
-  return (
-    <>
-      <ServiceHeroSection />
-      <SuccessService />
-      <AdCreationServiceSection />
-      <ServiceSection />
-    </>
-  );
+function ServicesPage() {
+  return <Services />
 }
+
+export default ServicesPage

@@ -30,7 +30,7 @@ import { Container } from '@/app/styles/commonStyle';
 import SVGIcon from '@/app/assets/SVGIcon';
 import { useRouter } from 'next/navigation';
 import { usePathname } from 'next/navigation';
-import { HEADER_HIDE_PATHS } from '@/global/constants';
+import { HEADER_HIDE_PATHS, LANDING_PATHS } from '@/global/constants';
 import { useDispatch, useSelector } from 'react-redux';
 import { isEmpty } from '@/helper/common';
 import { Dropdown, Menu } from 'antd';
@@ -123,11 +123,22 @@ export default function Header() {
         <Div isScrollPage={isScrollPage}>
           <Container>
             <Main>
-              <Logo href={'/'}>
+              <Logo href={userDetails?.id ? '/dashboard' : '/'}>
                 <img src={images.Logo.src} alt='logo' width={193} height={35} className='logo' />
               </Logo>
               <Rightdiv>
-                <Options>
+                {LANDING_PATHS.includes(pathName || '') ? <Options>
+                  <Link href={'/contactus'}>
+                    <Option>Contact Us</Option>
+                  </Link>
+                  <Link href={'/aboutus'}>
+                    <Option>About Us</Option>
+                  </Link>
+                  <Link href={'/services'}>
+                    <Option>Services</Option>
+                  </Link>
+                  <Line />
+                </Options> : <Options>
                   <Link href={'/dashboard'}>
                     <Option>Dashboard</Option>
                   </Link>
@@ -141,7 +152,7 @@ export default function Header() {
                     <Option>Expense Report</Option>
                   </Link>
                   <Line />
-                </Options>
+                </Options>}
                 {isEmpty(userDetails?.id) ? (
                   <Buttondiv>
                     <Button title='Log In' onClick={handleButtonClick} />
@@ -225,20 +236,32 @@ export default function Header() {
           {isMenuOpen && (
             <Overlayblock onClick={handleClose}>
               <Mobilemenu>
-                <Mobileoption>
-                  <div onClick={() => handleMenuOptionClick('/dashboard')}>
-                    <Mobilelink>Dashboard</Mobilelink>
-                  </div>
-                  <div onClick={() => handleMenuOptionClick('/entries')}>
-                    <Mobilelink>Entries</Mobilelink>
-                  </div>
-                  <div onClick={() => handleMenuOptionClick('/split-entry')}>
-                    <Mobilelink>Split Entries</Mobilelink>
-                  </div>
-                  <div onClick={() => handleMenuOptionClick('/expense-report')}>
-                    <Mobilelink>Expense Report</Mobilelink>
-                  </div>
-                </Mobileoption>
+                {LANDING_PATHS.includes(pathName || '') ?
+                  <Mobileoption>
+                    <div onClick={() => handleMenuOptionClick('/contactus')}>
+                      <Mobilelink>Contact Us</Mobilelink>
+                    </div>
+                    <div onClick={() => handleMenuOptionClick('/aboutus')}>
+                      <Mobilelink>About Us</Mobilelink>
+                    </div>
+                    <div onClick={() => handleMenuOptionClick('/services')}>
+                      <Mobilelink>Services</Mobilelink>
+                    </div>
+                  </Mobileoption>
+                  : <Mobileoption>
+                    <div onClick={() => handleMenuOptionClick('/dashboard')}>
+                      <Mobilelink>Dashboard</Mobilelink>
+                    </div>
+                    <div onClick={() => handleMenuOptionClick('/entries')}>
+                      <Mobilelink>Entries</Mobilelink>
+                    </div>
+                    <div onClick={() => handleMenuOptionClick('/split-entry')}>
+                      <Mobilelink>Split Entries</Mobilelink>
+                    </div>
+                    <div onClick={() => handleMenuOptionClick('/expense-report')}>
+                      <Mobilelink>Expense Report</Mobilelink>
+                    </div>
+                  </Mobileoption>}
               </Mobilemenu>
             </Overlayblock>
           )}

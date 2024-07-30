@@ -6,6 +6,8 @@ export const FOOTER_HIDE_PATHS = ['/login', '/setting'];
 
 export const PRIVATE_ROUTES = ['/setting', '/mylibrary'];
 
+export const LANDING_PATHS = ['/', '/aboutus', '/contactus', '/services']
+
 export const USER_PREFERENCES = 'UserPreferences-B2B';
 
 export const POSSIBLE_MEMBERSHIP_PAGES = {

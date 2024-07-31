@@ -1,8 +1,23 @@
+'use client';
+import { useSelector } from 'react-redux';
 import Discoversection from './components/discoverSection/discoversection';
 import HeroSection from './components/heroSection/heroSection';
 import LoginCard from './components/loginCard/loginCard';
+import { RootReducerInterface } from './Interface/RootReducerInterface';
+import { isEmpty } from '@/helper/common';
+import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 
-export default async function Home() {
+export default function Home() {
+  const router = useRouter();
+  const userSelector = useSelector((state: RootReducerInterface) => state.user);
+  const { userDetails } = userSelector || {};
+
+  useEffect(() => {
+    if (!isEmpty(userDetails?.id)) {
+      router.push('/dashboard');
+    }
+  }, [router, userDetails?.id]);
 
   return (
     <>

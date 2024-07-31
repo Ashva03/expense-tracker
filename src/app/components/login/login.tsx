@@ -27,7 +27,7 @@ export default function Login(props: props) {
 
   useEffect(() => {
     if (pathName === '/login' && !isEmpty(userDetails?.id)) {
-      router.push('/');
+      router.push('/dashboard');
     }
   }, [pathName, router, userDetails?.id]);
 

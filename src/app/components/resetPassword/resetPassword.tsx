@@ -28,7 +28,7 @@ export default function ResetPassword(props: props) {
 
   useEffect(() => {
     if (pathName === '/login' && !isEmpty(userDetails?.id)) {
-      router.push('/');
+      router.push('/dashboard');
     }
   }, [pathName, router, userDetails?.id]);
 

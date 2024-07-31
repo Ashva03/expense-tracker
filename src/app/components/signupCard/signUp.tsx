@@ -35,7 +35,7 @@ export default function SignupCard({ login, isPadding, setCurrentActivePage }: P
 
   useEffect(() => {
     if (pathName === '/login' && !isEmpty(userDetails?.id)) {
-      router.push('/');
+      router.push('/dashboard');
     }
   }, [pathName, router, userDetails?.id]);
 
@@ -64,7 +64,7 @@ export default function SignupCard({ login, isPadding, setCurrentActivePage }: P
         if (result) {
           await UserPreferenceSingleton.getInstance().setCurrentUser(result);
           await dispatch(appInit());
-          router.push('/');
+          router.push('/dashboard');
         }
       } catch (err: any) {
         dispatch(setErrorMessage(`Failed to register : ${err}`));

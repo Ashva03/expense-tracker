@@ -36,7 +36,7 @@ export default function LoginCard({ login, isPadding, setCurrentActivePage }: Pr
 
   useEffect(() => {
     if (pathName === '/login' && !isEmpty(userDetails?.id)) {
-      router.push('/');
+      router.push('/dashboard');
     }
   }, [pathName, router, userDetails?.id]);
 
@@ -57,7 +57,7 @@ export default function LoginCard({ login, isPadding, setCurrentActivePage }: Pr
         if (result) {
           await UserPreferenceSingleton.getInstance().setCurrentUser(result);
           await dispatch(appInit());
-          router.push('/')
+          router.push('/dashboard')
         }
       } catch (err: any) {
         console.log('error', err)

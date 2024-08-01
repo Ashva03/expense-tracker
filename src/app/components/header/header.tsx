@@ -142,6 +142,9 @@ export default function Header() {
                   <Link href={'/dashboard'}>
                     <Option>Dashboard</Option>
                   </Link>
+                  <Link href={'/company'}>
+                    <Option>Company</Option>
+                  </Link>
                   <Link href={'/entries'}>
                     <Option>Entries</Option>
                   </Link>
@@ -251,6 +254,9 @@ export default function Header() {
                   : <Mobileoption>
                     <div onClick={() => handleMenuOptionClick('/dashboard')}>
                       <Mobilelink>Dashboard</Mobilelink>
+                    </div>
+                    <div onClick={() => handleMenuOptionClick('/company')}>
+                      <Mobilelink>Company</Mobilelink>
                     </div>
                     <div onClick={() => handleMenuOptionClick('/entries')}>
                       <Mobilelink>Entries</Mobilelink>

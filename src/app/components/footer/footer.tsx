@@ -44,6 +44,9 @@ const Footer: React.FC<Props> = (Props) => {
               <Link href={'/dashboard'}>
                 <CustomOption>Dashboard</CustomOption>
               </Link>
+              <Link href={'/company'}>
+                <CustomOption>Company</CustomOption>
+              </Link>
               <Link href={'/entries'}>
                 <CustomOption>Entries</CustomOption>
               </Link>

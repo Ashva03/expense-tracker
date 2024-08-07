@@ -19,10 +19,19 @@ model Company {
   created_by    String
   created_time  DateTime @db.Date
   favourite     String[]
+  invited_users String[]
   name          String
   profile_image String
   updated_time  DateTime @db.Date
   users         String[]
+}
+
+model InvitedUsers {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  companies  String[]
+  created_at DateTime @db.Date
+  email      String
+  updated_at DateTime @db.Date
 }
 
 model Transaction {

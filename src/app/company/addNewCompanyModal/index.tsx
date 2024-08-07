@@ -1,4 +1,5 @@
-import React, { useCallback, useRef, useState } from 'react'
+'use client'
+import React, { ChangeEvent, useCallback, useRef, useState } from 'react'
 import { AddMain, CloseIcon, Edit, Frame, NewModalDiv, Profile, SvgMain, Thirdblock, Title, Top } from './style'
 import SVGIcon from '@/app/assets/SVGIcon';
 import Button from '@/app/components/button/button';
@@ -7,6 +8,8 @@ import Avatar from '@/app/components/avatar/Avatar';
 import { useDispatch } from 'react-redux';
 import { setErrorMessage } from '@/actions/messageActions';
 import { Input, Label, Labels } from '@/app/components/input/styles';
+import { nanoid } from '@reduxjs/toolkit';
+import { addcompanyDetails } from '@/services/companyServices';
 
 function AddNewCompanyModal(props: any) {
     const { onClose } = props;
@@ -16,7 +19,9 @@ function AddNewCompanyModal(props: any) {
         profile?: string;
         file?: File;
     }>({});
-    const [users, setUsers] = useState([{ id: "", email: "" }])
+    const [users, setUsers] = useState([{ id: nanoid(), email: "" }]);
+    const [name, setName] = useState('');
+
 
     const convertBase64 = (file: any) => {
         return new Promise((resolve, reject) => {
@@ -60,7 +65,7 @@ function AddNewCompanyModal(props: any) {
     };
 
     const onClickPlus = useCallback(() => {
-        setUsers([...users, { id: "", email: "" }])
+        setUsers([...users, { id: nanoid(), email: "" }])
     }, [users])
 
     const onClickRemove = useCallback((index: number, users: { id: string; email: string }[]) => {
@@ -69,6 +74,26 @@ function AddNewCompanyModal(props: any) {
         setUsers(usersClone);
     }, [])
 
+    const onChangeEmail = useCallback((value: string, users: any, index: number) => {
+        let usersClone = [...(users || [])];
+        usersClone[index].email = value
+        setUsers(usersClone);
+    }, [])
+
+    const onCreateCompany = useCallback(async (e: React.SyntheticEvent) => {
+        e.preventDefault();
+        console.log('SUBMIT-=-=-=-=-=')
+        const payload = {
+            name,
+            users
+        }
+        console.log('payload', payload)
+        const result = await dispatch(addcompanyDetails(payload))
+        if (result) {
+            // setName('')
+            // setUsers([{ id: nanoid(), email: '' }])
+        }
+    }, [dispatch, name, users])
 
     return (
         <NewModalDiv>
@@ -89,7 +114,7 @@ function AddNewCompanyModal(props: any) {
                     </Frame>
                 </Profile>
             </Top>
-            <Thirdblock>
+            <Thirdblock onSubmit={onCreateCompany}>
                 <Profile>
                     <Avatar
                         imgSrc={''}
@@ -106,8 +131,8 @@ function AddNewCompanyModal(props: any) {
                     placeholder={'Enter your name'}
                     className='input'
                     type='text'
-                // value={name}
-                // onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
+                    value={name}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value)}
                 />
                 <div className={`input-container-multiple active`}>
                     <Labels>
@@ -118,10 +143,11 @@ function AddNewCompanyModal(props: any) {
                     {users?.map((inp, index) => <AddMain>
                         <Input
                             placeholder={'Enter your email address'}
-                        // width={width}
-                        // hasError={hasError}
-                        // className={className}
-                        // onChange={onChange}
+                            // width={width}
+                            // hasError={hasError}
+                            // className={className}
+                            value={inp?.email}
+                            onChange={(e: ChangeEvent<HTMLInputElement>) => onChangeEmail(e.target.value, users, index)}
                         // type={isShow ? 'text' : type}
                         // disabled={disabled}
                         // {...props}

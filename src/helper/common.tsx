@@ -2,6 +2,7 @@ import { setErrorMessage } from '@/actions/messageActions';
 import { app } from '@/utils/firebase';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { AnyAction, Dispatch } from 'redux';
+import { v4 as uuidv4 } from 'uuid';
 
 /**
  * @desc Checks for Empty string
@@ -72,6 +73,10 @@ export const getUTCDate = (date: any) => {
   if (date) date = new Date(date);
   else date = new Date();
   return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()));
+};
+
+export const getUniqueObjectId = () => {
+  return uuidv4();
 };
 
 export const generateRandomFilename = () => {

@@ -87,7 +87,7 @@ const Title = styled.div`
   }
 `;
 
-const Thirdblock = styled.div`
+const Thirdblock = styled.form`
   display: flex;
   flex-direction: column;
   /* gap: 22px; */

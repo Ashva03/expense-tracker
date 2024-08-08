@@ -14,8 +14,8 @@ const UserLogoWrapper = styled.div<Props>`
     width: 100px;
     height: 100px;
     ${(props) =>
-      props.header &&
-      css`
+    props.header &&
+    css`
         border-radius: 8px;
         width: 36px;
         height: 36px;
@@ -25,8 +25,8 @@ const UserLogoWrapper = styled.div<Props>`
     img {
       border-radius: 24px;
       ${(props) =>
-        props.header &&
-        css`
+    props.header &&
+    css`
           border-radius: 8px;
         `}
     }
@@ -37,8 +37,8 @@ const UserLogoWrapper = styled.div<Props>`
       width: 80px;
       height: 80px;
       ${(props) =>
-        props.header &&
-        css`
+    props.header &&
+    css`
           border-radius: 8px;
           width: 32px;
           height: 32px;
@@ -52,7 +52,7 @@ const TextWrapper = styled.div<Props>`
   justify-content: center;
   color: white;
   display: flex;
-  background-color: ${randomColorsArray};
+  background-color: ${randomColorsArray[0]};
   border-radius: 20px;
   ${(props) =>
     props.size &&

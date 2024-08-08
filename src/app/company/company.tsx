@@ -1,11 +1,16 @@
 'use client';
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { CompanyHeader, Content, HeaderName, MainDiv, NewButtonMain } from './style';
 import Button from '../components/button/button';
 import ModalCustom from '../components/modelCustom/modelCustom';
 import AddNewCompanyModal from './addNewCompanyModal';
 import { Space, Table, TableProps, Tag } from 'antd';
 import { EllipsisOutlined } from '@ant-design/icons';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootReducerInterface } from '../Interface/RootReducerInterface';
+import { isEmpty } from '@/helper/common';
+import { getUserCompanyList } from '@/services/companyServices';
+import { randomColorsArray } from '../assets/style';
 
 interface DataType {
   key: string;
@@ -15,6 +20,13 @@ interface DataType {
   tags: string[];
 }
 
+
+const getRandomColour = (name: string) => {
+  const asciiValue: any = name.charAt(0).toUpperCase().charCodeAt(0);
+  const colorIndex = (Number(asciiValue) - 64) % (randomColorsArray.length - 1);
+  return randomColorsArray[colorIndex];
+};
+
 const columns: TableProps<DataType>['columns'] = [
   {
     title: 'Name',
@@ -23,19 +35,31 @@ const columns: TableProps<DataType>['columns'] = [
     render: (text) => <a>{text}</a>,
   },
   {
-    title: 'Tags',
-    key: 'tags',
-    dataIndex: 'tags',
-    render: (_, { tags }) => (
+    title: 'Users',
+    key: 'users',
+    dataIndex: 'users',
+    render: (users) => (
       <>
-        {tags.map((tag) => {
-          let color = tag.length > 5 ? 'geekblue' : 'green';
-          if (tag === 'loser') {
-            color = 'volcano';
-          }
+        {users.map((user: any) => {
           return (
-            <Tag color={color} key={tag}>
-              {tag.toUpperCase()}
+            <Tag color={getRandomColour(user.name)} key={user.email}>
+              {user.email}
+            </Tag>
+          );
+        })}
+      </>
+    ),
+  },
+  {
+    title: 'Invited Users',
+    key: 'invitedUsers',
+    dataIndex: 'invitedUsers',
+    render: (invitedUsers) => (
+      <>
+        {invitedUsers.map((user: any) => {
+          return (
+            <Tag color={'#bdbdbd'} key={user.email}>
+              {user.email}
             </Tag>
           );
         })}
@@ -79,6 +103,19 @@ const data: DataType[] = [
 
 function Company() {
   const [isNewCompanyModal, setIsNewCompanyModal] = useState(false);
+  const dispatch = useDispatch();
+  const userSelector = useSelector((state: RootReducerInterface) => state.user);
+  const { userDetails } = userSelector || {};
+  const companySelector = useSelector((state: RootReducerInterface) => state.company);
+  const { companyList } = companySelector || {};
+
+  const loadData = useCallback(async () => {
+    if (!isEmpty(userDetails?.id)) await dispatch(getUserCompanyList(userDetails?.id));
+  }, [dispatch, userDetails?.id])
+
+  useEffect(() => {
+    loadData();
+  }, [loadData])
 
   const onClickNew = useCallback(() => {
     setIsNewCompanyModal(true);
@@ -98,7 +135,7 @@ function Company() {
               <Button onClick={onClickNew} title='New' />
             </NewButtonMain>
           </CompanyHeader>
-          <Table columns={columns} dataSource={data} />
+          <Table columns={columns} dataSource={companyList} />
         </Content>
       </MainDiv>
       <ModalCustom open={isNewCompanyModal} onClose={onCloseNewModal}>

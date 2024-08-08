@@ -19,6 +19,54 @@ export const getCompanyInvitedUsers = async (companyId: string) => {
   }
 };
 
+export const getCompanyList = async (userId: string) => {
+  try {
+    const companies = await prisma.company.findMany({
+      where: {
+        users: {
+          has: userId,
+        },
+      },
+    });
+
+    const companyIds = companies.map((company) => company.id);
+
+    const invitedUsers = await prisma.invitedUsers.findMany({
+      where: {
+        companies: {
+          hasSome: companyIds,
+        },
+      },
+    });
+
+    const companiesWithInvitedUsers = await Promise.all(
+      companies.map(async (company) => {
+        // Fetch user details for each user in the company
+        const updatedUsers = await Promise.all(
+          company.users?.map(async (userId) => {
+            const userDetails = await prisma.user.findFirst({ where: { id: userId } });
+            return userDetails;
+          }) || [], // Ensure it's an empty array if company.users is undefined or null
+        );
+
+        // Filter invited users related to this company
+        const companyInvitedUsers = invitedUsers.filter((user) => user.companies.includes(company.id));
+
+        return {
+          ...company,
+          users: updatedUsers,
+          invitedUsers: companyInvitedUsers,
+        };
+      }),
+    );
+
+    return companiesWithInvitedUsers;
+  } catch (error) {
+    console.error('Error fetching users by company:', error);
+    throw error;
+  }
+};
+
 export const createCompany = async ({
   name,
   users,
@@ -39,7 +87,6 @@ export const createCompany = async ({
       existUsers.push(isUserExist?.id);
     } else {
       const invitedUserExist = await prisma.invitedUsers.findFirst({ where: { email: user?.email } });
-      console.log('invitedUserExist', invitedUserExist);
       if (!isEmpty(invitedUserExist)) {
         await prisma.invitedUsers.update({
           where: { id: invitedUserExist?.id },
@@ -61,12 +108,10 @@ export const createCompany = async ({
   // Wait for all promises to resolve
   await Promise.all(userPromises);
 
-  console.log('invitedUsers', invitedUsers);
   if (invitedUsers?.length > 0) {
-    const invitedResponse = await prisma.invitedUsers.createMany({
+    await prisma.invitedUsers.createMany({
       data: invitedUsers,
     });
-    console.log('invitedResponse====', invitedResponse);
   }
 
   const invitedUsersFinal =
@@ -86,6 +131,5 @@ export const createCompany = async ({
   const workspace = await prisma.company.create({
     data: companyPayload,
   });
-  console.log('workspace =-=-=- ', workspace);
   return workspace;
 };

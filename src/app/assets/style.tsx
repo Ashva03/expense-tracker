@@ -19,7 +19,7 @@ export const colors = {
   lightBlack: '#393939',
 };
 
-export const randomColorsArray = ['#0BFF72'];
+export const randomColorsArray = ['#4fcb71', '#f5a623', '#7ed321', '#50e3c2', '#9B9B9B', '#4a90e2', '#ff7c73', '#FF2C54'];
 // typo variable
 // add all possible type of font style based on project's theme
 export const typo = {

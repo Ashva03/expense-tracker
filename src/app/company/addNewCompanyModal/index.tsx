@@ -25,7 +25,6 @@ function AddNewCompanyModal(props: any) {
     const userSelector = useSelector((state: RootReducerInterface) => state.user);
     const { userDetails } = userSelector || {};
 
-
     const convertBase64 = (file: any) => {
         return new Promise((resolve, reject) => {
             const fileReader = new FileReader();
@@ -85,13 +84,11 @@ function AddNewCompanyModal(props: any) {
 
     const onCreateCompany = useCallback(async (e: React.SyntheticEvent) => {
         e.preventDefault();
-        console.log('SUBMIT-=-=-=-=-=')
         const payload = {
             name,
             users,
             userId: userDetails?.id
         }
-        console.log('payload', payload)
         const result = await dispatch(addcompanyDetails(payload))
         if (result) {
             setName('')

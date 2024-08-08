@@ -1,4 +1,5 @@
 import { setErrorMessage } from '@/actions/messageActions';
+import { randomColorsArray } from '@/app/assets/style';
 import { app } from '@/utils/firebase';
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import { AnyAction, Dispatch } from 'redux';

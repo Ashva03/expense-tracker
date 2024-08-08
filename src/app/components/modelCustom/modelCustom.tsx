@@ -18,6 +18,7 @@ const defaultProps = {
 
 const ModalCustom = ({ children, open, onClose, ...props }: Props & typeof defaultProps) => {
   const [loaded, setLoaded] = useState(false);
+  console.log('loaded', loaded)
 
   const close = useCallback(() => {
     setLoaded(false);
@@ -31,6 +32,7 @@ const ModalCustom = ({ children, open, onClose, ...props }: Props & typeof defau
   }, []);
 
   useEffect(() => {
+    modalLoad();
     if (!open) setLoaded(false);
   }, [open]);
 
@@ -41,7 +43,7 @@ const ModalCustom = ({ children, open, onClose, ...props }: Props & typeof defau
           <ModalOverlay isOpen={open} onClick={close}></ModalOverlay>
           <Maindiv>
             <ModalContent
-              onLoad={modalLoad}
+              // onLoad={modalLoad}
               style={{ transform: loaded ? `translate(-50%,-50%) scale(1)` : `translate(-50%,-50%) scale(0)` }}
               isWidth={props?.width}>
               {children}

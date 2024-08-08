@@ -2,7 +2,7 @@
 
 import { LoginInterface, SignupInterface } from '@/interfaces/userInterfaces';
 import { prisma } from '../../prisma/client';
-import { isEmpty } from '@/helper/common';
+import { getUniqueObjectId, isEmpty } from '@/helper/common';
 import { UserUpdatePayloadInterface } from '@/app/Interface/userInterface';
 
 // import { UserAddPayloadInterface, UserUpdatePayloadInterface } from '@/app/Interface/userInterface';
@@ -35,6 +35,9 @@ export const signupUserDetails = async ({ email, name, password }: SignupInterfa
       time_zone_id: '',
     },
     normalized_email: email,
+    id: getUniqueObjectId(),
+    created_at: new Date(),
+    updated_at: new Date(),
   };
   const user = await prisma.user.create({
     data: newUser,

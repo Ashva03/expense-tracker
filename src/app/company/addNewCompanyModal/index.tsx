@@ -5,11 +5,12 @@ import SVGIcon from '@/app/assets/SVGIcon';
 import Button from '@/app/components/button/button';
 import InputComponent from '@/app/components/input/input';
 import Avatar from '@/app/components/avatar/Avatar';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setErrorMessage } from '@/actions/messageActions';
 import { Input, Label, Labels } from '@/app/components/input/styles';
 import { nanoid } from '@reduxjs/toolkit';
 import { addcompanyDetails } from '@/services/companyServices';
+import { RootReducerInterface } from '@/app/Interface/RootReducerInterface';
 
 function AddNewCompanyModal(props: any) {
     const { onClose } = props;
@@ -21,6 +22,8 @@ function AddNewCompanyModal(props: any) {
     }>({});
     const [users, setUsers] = useState([{ id: nanoid(), email: "" }]);
     const [name, setName] = useState('');
+    const userSelector = useSelector((state: RootReducerInterface) => state.user);
+    const { userDetails } = userSelector || {};
 
 
     const convertBase64 = (file: any) => {
@@ -85,15 +88,17 @@ function AddNewCompanyModal(props: any) {
         console.log('SUBMIT-=-=-=-=-=')
         const payload = {
             name,
-            users
+            users,
+            userId: userDetails?.id
         }
         console.log('payload', payload)
         const result = await dispatch(addcompanyDetails(payload))
         if (result) {
-            // setName('')
-            // setUsers([{ id: nanoid(), email: '' }])
+            setName('')
+            setUsers([{ id: nanoid(), email: '' }])
+            onClose();
         }
-    }, [dispatch, name, users])
+    }, [dispatch, name, onClose, userDetails?.id, users])
 
     return (
         <NewModalDiv>

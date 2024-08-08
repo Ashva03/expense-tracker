@@ -19,7 +19,15 @@ export const getCompanyInvitedUsers = async (companyId: string) => {
   }
 };
 
-export const createCompany = async ({ name, users }: { name: string; users: { id: string; email: string }[] }) => {
+export const createCompany = async ({
+  name,
+  users,
+  userId,
+}: {
+  name: string;
+  users: { id: string; email: string }[];
+  userId: string;
+}) => {
   const allUsers = await prisma.user.findMany();
   const companyId = getUniqueObjectId();
   let existUsers: string[] = [],
@@ -40,6 +48,7 @@ export const createCompany = async ({ name, users }: { name: string; users: { id
         invitedIds.push(invitedUserExist?.id);
       } else {
         invitedUsers.push({
+          id: getUniqueObjectId(),
           email: user?.email,
           companies: [companyId],
           created_at: new Date(),
@@ -64,14 +73,19 @@ export const createCompany = async ({ name, users }: { name: string; users: { id
     invitedUsers?.length === 0 && invitedIds?.length === 0 ? [] : await getCompanyInvitedUsers(companyId);
 
   const companyPayload: any = {
-    profileImage: '',
+    profile_image: '',
     name,
-    users: ['987987987987'],
-    invitedUsers: invitedUsersFinal?.map((x) => x.id),
+    users: [...new Set([...(existUsers || []), userId])],
+    invited_users: [...new Set(invitedUsersFinal?.map((x) => x.id) || [])],
+    id: companyId,
+    created_by: userId,
+    created_time: new Date(),
+    favourite: [],
+    updated_time: new Date(),
   };
-  // const user = await prisma.user.create({
-  //   data: newUser,
-  // });
-  // return user;
-  return false;
+  const workspace = await prisma.company.create({
+    data: companyPayload,
+  });
+  console.log('workspace =-=-=- ', workspace);
+  return workspace;
 };

@@ -14,6 +14,9 @@ export const addcompanyDetails: any = (payload: any) => async (dispatch: Dispatc
     dispatch(setUserLoading(true));
     console.log('====', payload)
     const response = await createCompany(payload);
+    if (response) {
+      return response
+    }
     return false;
   } catch (e) {
     dispatchUserError(getAPIErrorReason(e) || 'Something goes wrong, please try again later', dispatch);

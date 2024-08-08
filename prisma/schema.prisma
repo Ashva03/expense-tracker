@@ -27,7 +27,7 @@ model Company {
 }
 
 model InvitedUsers {
-  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  id         String   @id @map("_id")
   companies  String[]
   created_at DateTime @db.Date
   email      String
@@ -49,7 +49,7 @@ model Transaction {
 }
 
 model User {
-  id               String      @id @default(auto()) @map("_id") @db.ObjectId
+  id               String      @id @map("_id")
   created_at       DateTime    @db.Date
   details          UserDetails
   email            String

@@ -1,30 +1,17 @@
 /** @type {import('next').NextConfig} */
-import purgecss from '@fullhuman/postcss-purgecss';
-
 const nextConfig = {
   reactStrictMode: true,
+
+  // Ensure you're on the correct Next.js version if using appDir
   experimental: { appDir: true },
+
   compiler: {
     styledComponents: true,
   },
-  plugins: [
-    purgecss({
-      content: ['./**/*.html'],
-    }),
-  ],
+
   images: {
     domains: ['firebasestorage.googleapis.com'],
   },
-  // async redirects() {
-  //   return [
-  //     {
-  //       source: '/about',
-  //       destination: '/',
-  //       permanent: true,
-  //       basePath: true, // set false if destination path start with http or https
-  //     },
-  //   ];
-  // },
 
   async rewrites() {
     return [

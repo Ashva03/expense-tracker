@@ -17,6 +17,7 @@
     "lint": "npm run lint:js"
   },
   "dependencies": {
+    "@ant-design/icons": "^5.4.0",
     "@fullhuman/postcss-purgecss": "^6.0.0",
     "@prisma/client": "^5.17.0",
     "@reduxjs/toolkit": "^2.2.5",

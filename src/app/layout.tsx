@@ -6,6 +6,7 @@ import Footersection from './components/footerSection/footersection';
 import Header from './components/header/header';
 import Favicon from './components/favIcon';
 
+
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {

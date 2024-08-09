@@ -1,7 +1,7 @@
 {
   "css.validate": false,
   "editor.formatOnSave": true,
-  "files.autoSave": "afterDelay",
+  "files.autoSave": "off",
   "editor.codeActionsOnSave": {
     "source.fixAll": "always"
   },

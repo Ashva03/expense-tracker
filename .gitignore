@@ -38,3 +38,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Ignore Visual Studio settings files
+*.suo
+*.user
+*.userosscache
+*.suo
+.vscode/setting.json

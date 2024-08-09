@@ -1,0 +1,34 @@
+.spinnerContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f0f0f0;
+}
+
+.spinner {
+  border: 8px solid transparent;
+  border-top: 8px solid #000000;
+  border-right: 8px solid #113e15;
+  border-radius: 50%;
+  width: 80px;
+  height: 80px;
+  position: relative;
+}
+
+.innerCircle {
+  background-color: #2ecc71;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  top: 20px;
+  left: 20px;
+}
+
+.loadingText {
+  margin-top: 20px;
+  font-size: 1.4em;
+  color: #555;
+}

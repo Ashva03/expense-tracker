@@ -1,19 +1,11 @@
 'use client';
 
 import React from 'react';
-import { Row, Col, Card, Statistic, Typography } from 'antd';
-import {
-  ArrowUpOutlined,
-  ArrowDownOutlined,
-  DollarOutlined,
-  UserOutlined,
-  HeartOutlined,
-  ShoppingOutlined,
-  MinusOutlined,
-} from '@ant-design/icons';
+import { Row, Col, Card, Typography } from 'antd';
+import { MinusOutlined } from '@ant-design/icons';
 import { Bar, Line } from 'react-chartjs-2';
 import 'chart.js/auto';
-import { AntdCard, BarCard, ChartMain, DashboardMain, GraphCard } from './style';
+import { DashboardMain, GraphCard } from './style';
 import './styles.css';
 import Paragraph from 'antd/es/typography/Paragraph';
 
@@ -130,7 +122,7 @@ const Dashboard = () => {
     },
   ];
 
-  const { Title, Text } = Typography;
+  const { Title } = Typography;
 
   return (
     <DashboardMain>
